@@ -24,7 +24,7 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 					Si n < 1 Entonces
 						Escribir "La cantidad de clientes a ingresar debe ser mayor a 0";
 					FinSi
-				Hasta Que n_clientes < 1
+				Hasta Que n_clientes > 0
 				Dimension nombre[n_clientes+1];
 				Dimension direccion[n_clientes+1];
 				Dimension telefono[n_clientes+1];
@@ -42,21 +42,21 @@ FinProceso
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, n_membresia Por Referencia, estado_membresia Por Referencia, tipo_membresia Por Referencia, estado_pago Por Referencia, n_clientes)
 	
 	Para i <- 1 Hasta n_clientes Con Paso 1 Hacer
-		Escribir "Ingrese nombre del cliente ", i+1, ": ";
+		Escribir "Ingrese nombre del cliente ", i, ": ";
 		Leer nombre[i];
-		Escribir "Ingrese direccion del cliente ", i+1, ": ";
+		Escribir "Ingrese direccion del cliente ", i, ": ";
 		Leer direccion[i];
-		Escribir "Ingrese telefono del cliente ", i+1, ": ";
+		Escribir "Ingrese telefono del cliente ", i, ": ";
 		Leer telefono[i];
-		Escribir "Ingrese edad del cliente ", i+1, ": ";
+		Escribir "Ingrese edad del cliente ", i, ": ";
 		Leer edad[i];
-		Escribir "Ingrese numero de membresia del cliente ", i+1, ": ";
+		Escribir "Ingrese numero de membresia del cliente ", i, ": ";
 		Leer n_membresia[i];
-		Escribir "Ingrese estado membresia del cliente ", i+1, ": ";
+		Escribir "Ingrese estado membresia del cliente ", i, ": ";
 		Leer estado_membresia[i];
-		Escribir "Ingrese tipo membresia del cliente ", i+1, ": ";
+		Escribir "Ingrese tipo membresia del cliente ", i, ": ";
 		Leer tipo_membresia[i];
-		Escribir "Ingrese estado pago del cliente ", i+1, ": ";
+		Escribir "Ingrese estado pago del cliente ", i, ": ";
 		Leer estado_pago[i];
 	FinPara
 FinSubProceso
