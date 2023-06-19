@@ -1,7 +1,8 @@
 Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 	//El objetivo de este trabajo práctico es desarrollar un sistema de gestión para un gimnasio que cumpla con los siguientes requisitos: carga de datos, búsqueda, ordenamiento y generación de listados.
-	Definir opc, n_clientes, i Como Entero;
-	
+	Definir opc, n_clientes, telefono, edad, n_membresia, tipo_membresia, i Como Entero;
+	Definir membresia_paga Como Logico
+	Definir nombre, direccion Como Caracter
 	
 	Repetir
 		Escribir "MENU";
@@ -21,25 +22,24 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				Repetir
 					Escribir "Ingrese la cantidad de clientes que desea cargar:";
 					Leer n_clientes;
-					Si n < 1 Entonces
+					Si n_clientes < 0 Entonces
 						Escribir "La cantidad de clientes a ingresar debe ser mayor a 0";
 					FinSi
 				Hasta Que n_clientes > 0
-				Dimension nombre[n_clientes+1];
-				Dimension direccion[n_clientes+1];
-				Dimension telefono[n_clientes+1];
-				Dimension edad[n_clientes+1];
-				Dimension n_membresia[n_clientes+1];
-				Dimension estado_membresia[n_clientes+1];
-				Dimension tipo_membresia[n_clientes+1];
-				Dimension estado_pago[n_clientes+1];
-				cargarDatos(nombre, direccion, telefono, edad, n_membresia, estado_membresia, tipo_membresia, estado_pago, n_clientes);
+				Dimension nombre[n_clientes+1]; // cadena, nombre del cliente
+				Dimension direccion[n_clientes+1]; // cadena
+				Dimension telefono[n_clientes+1]; // entero
+				Dimension edad[n_clientes+1]; //entero
+				Dimension n_membresia[n_clientes+1]; // entero, identificación del gimansio
+				Dimension membresia_paga[n_clientes+1]; //booleano, verdadero: paga, falso: debe la cuota
+				Dimension tipo_membresia[n_clientes+1]; //entero, 1 = estandar, 2 = clases, 3 = premium
+				cargarDatos(nombre, direccion, telefono, edad, n_membresia, estado_membresia, tipo_membresia, n_clientes);
 		FinSegun
 	Hasta Que opc = 5
 	
 FinProceso
 // carga de datos 
-SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, n_membresia Por Referencia, estado_membresia Por Referencia, tipo_membresia Por Referencia, estado_pago Por Referencia, n_clientes)
+SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, n_membresia Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	
 	Para i <- 1 Hasta n_clientes Con Paso 1 Hacer
 		Escribir "Ingrese nombre del cliente ", i, ": ";
@@ -53,11 +53,9 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 		Escribir "Ingrese numero de membresia del cliente ", i, ": ";
 		Leer n_membresia[i];
 		Escribir "Ingrese estado membresia del cliente ", i, ": ";
-		Leer estado_membresia[i];
+		Leer membresia_paga[i];
 		Escribir "Ingrese tipo membresia del cliente ", i, ": ";
 		Leer tipo_membresia[i];
-		Escribir "Ingrese estado pago del cliente ", i, ": ";
-		Leer estado_pago[i];
 	FinPara
 FinSubProceso
 
