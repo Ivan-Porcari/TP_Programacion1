@@ -1,8 +1,8 @@
 Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 	//El objetivo de este trabajo práctico es desarrollar un sistema de gestión para un gimnasio que cumpla con los siguientes requisitos: carga de datos, búsqueda, ordenamiento y generación de listados.
-	Definir opc, n_clientes, telefono, edad, dni, tipo_membresia, membresia_paga, i Como Entero;
+	Definir opc, n_clientes, telefono, edad, dni, i Como Entero;
 	Definir socios_cargados Como Logico;
-	Definir nombre, direccion, continuar Como Caracter;
+	Definir nombre, direccion, continuar, tipo_membresia, membresia_paga Como Caracter;
 	socios_cargados = falso;
 	Repetir
 		Limpiar Pantalla;
@@ -43,9 +43,11 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				Dimension edad[n_clientes+1]; //entero
 				Dimension dni[n_clientes+1]; // entero, identificación del gimansio
 				Dimension membresia_paga[n_clientes+1]; //entero, 1: paga, 2: debe la cuota del mes
-				Dimension tipo_membresia[n_clientes+1]; //entero, 1 = estandar, 2 = clases, 3 = premium
-				cargarDatos(nombre, direccion, telefono, edad, n_membresia, estado_membresia, tipo_membresia, n_clientes);
+				Dimension tipo_membresia[n_clientes+1]; //cadena, 1 = estandar, 2 = clases, 3 = premium
+				cargarDatos(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes);
 				socios_cargados = Verdadero;
+			2: 
+				buscarDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes);
 		FinSegun
 	Hasta Que opc = 5
 	
@@ -75,7 +77,12 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 				leer continuar
 				validacion = 3;
 			SiNo
-				membresia_paga = validacion;
+				Segun validacion	
+					1:
+						membresia_paga[i] = "pago";
+					2:
+						membresia_paga[i] = "debe el mes";
+				FinSegun
 			FinSi
 		Hasta Que validacion <> 3
 		Hacer
@@ -90,10 +97,47 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 				leer continuar;
 				validacion = 4;
 			SiNo
-				tipo_membresia[i] = validacion;
+				Segun validacion	
+					1:
+						tipo_membresia[i] = "estandar";
+					2:
+						tipo_membresia[i] = "clases de zumba";
+					3:
+						tipo_membresia[i] = "premium";
+				FinSegun
+				
 			FinSi
 		Hasta Que validacion <> 4
 	FinPara
 FinSubProceso
+
+SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
+	Definir i, dniBuscado Como Entero
+	Definir dniEncontrado Como Logico
+	dniEncontrado = Falso
+	i = 1
+	Escribir "ingrese el dni que busca"
+	Leer dniBuscado
+	Mientras i <= n_clientes y dniEncontrado == Falso
+		si dniBuscado == dni[i]
+			dniEncontrado = Verdadero
+		FinSi
+		i = i + 1
+	FinMientras
+	si dniEncontrado == Verdadero
+		Escribir "nombre: ", nombre[i-1]
+		Escribir "dni: ", dni[i-1]
+		Escribir "direccion: ", direccion[i-1]
+		Escribir "edad: ", edad[i-1]
+		Escribir "tipo de membresia: ", tipo_membresia[i-1]
+		Escribir "estado de cuenta: ", membresia_paga[i-1]
+		Escribir "telefono: ", telefono[i-1]
+		leer continuar
+	SiNo
+		Escribir "dni no encontrado"
+		leer continuar
+	FinSi
+finSubProceso 
+
 
 
