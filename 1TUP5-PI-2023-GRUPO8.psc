@@ -42,18 +42,26 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				Dimension telefono[n_clientes+1]; // entero
 				Dimension edad[n_clientes+1]; //entero
 				Dimension dni[n_clientes+1]; // entero, identificación del gimansio
-				Dimension membresia_paga[n_clientes+1]; //entero, 1: paga, 2: debe la cuota del mes
+				Dimension membresia_paga[n_clientes+1]; //cadena, 1: paga, 2: debe la cuota del mes
 				Dimension tipo_membresia[n_clientes+1]; //cadena, 1 = estandar, 2 = clases, 3 = premium
 				cargarDatos(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes);
 				socios_cargados = Verdadero;
 			2: 
 				buscarDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes);
+				
+			3:	
+				
+				
+			4: 	mostrarListado(nombre, dni, membresia_paga, n_clientes)
+			
 		FinSegun
 	Hasta Que opc = 5
 	
 FinProceso
 // carga de datos 
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
+	
+	definir i, validacion, continuar Como Entero
 	
 	Para i <- 1 Hasta n_clientes Con Paso 1 Hacer
 		Escribir "Ingrese nombre del cliente ", i, ": ";
@@ -111,6 +119,8 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 	FinPara
 FinSubProceso
 
+
+// proceso busqueda de DNI
 SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	Definir i, dniBuscado Como Entero
 	Definir dniEncontrado Como Logico
@@ -139,5 +149,20 @@ SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono P
 	FinSi
 finSubProceso 
 
+//proceso de mostrar listado
+subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_paga Por Referencia, n_clientes)
+	
+	definir i Como Entero
+	definir continuar Como Caracter
+	Limpiar Pantalla
+	
+	i = 1
+	
+	para i <- 1 hasta n_clientes con paso 1 Hacer
+		Escribir "Nombre: ", nombre[i], " - DNI: ", dni[i], " - Estado: ", membresia_paga[i]
+	FinPara
+	leer continuar
+	
+FinSubProceso
 
 
