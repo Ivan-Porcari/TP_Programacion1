@@ -38,7 +38,7 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 	Hasta Que opc = 5
 	
 FinProceso
-
+// carga de datos 
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, n_membresia Por Referencia, estado_membresia Por Referencia, tipo_membresia Por Referencia, estado_pago Por Referencia, n_clientes)
 	
 	Para i <- 1 Hasta n_clientes Con Paso 1 Hacer
