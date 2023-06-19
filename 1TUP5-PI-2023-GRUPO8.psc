@@ -1,21 +1,32 @@
 Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 	//El objetivo de este trabajo práctico es desarrollar un sistema de gestión para un gimnasio que cumpla con los siguientes requisitos: carga de datos, búsqueda, ordenamiento y generación de listados.
 	Definir opc, n_clientes, telefono, edad, n_membresia, tipo_membresia, i Como Entero;
-	Definir membresia_paga Como Logico
-	Definir nombre, direccion Como Caracter
-	
+	Definir membresia_paga, socios_cargados Como Logico
+	Definir nombre, direccion, continuar Como Caracter
+	socios_cargados = falso
 	Repetir
+		Limpiar Pantalla
 		Escribir "MENU";
 		Escribir "1-> Cargar Datos Clientes";
 		Escribir "2-> Buscar Datos Cliente por DNI";
 		Escribir "3-> Ordenar Datos Clientes";
 		Escribir "4-> Mostrar Listado";
+		Escribir "5-> Salir" 
 		Escribir "Seleccione la opcion que desea realizar:";
 		
 		Leer opc;
 		Si opc < 1 o opc > 5 Entonces 
 			Escribir "Opción no válida. Ingresela nuevamente";
+			opc = 6
+		SiNo
+			si (opc <> 1 y opc <> 5) y socios_cargados == Falso
+				Limpiar Pantalla
+				Escribir "Aún no se han cargado los socios, presione enter para continuar"
+				leer continuar
+				opc = 6
+			FinSi
 		FinSi
+		
 		
 		Segun opc Hacer
 			1:
@@ -34,6 +45,7 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				Dimension membresia_paga[n_clientes+1]; //booleano, verdadero: paga, falso: debe la cuota
 				Dimension tipo_membresia[n_clientes+1]; //entero, 1 = estandar, 2 = clases, 3 = premium
 				cargarDatos(nombre, direccion, telefono, edad, n_membresia, estado_membresia, tipo_membresia, n_clientes);
+				socios_cargados = Verdadero
 		FinSegun
 	Hasta Que opc = 5
 	
