@@ -88,7 +88,7 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 			dniInvalido = Falso
 			Escribir "Ingrese el DNI del cliente ", i, ": ";
 			Leer dniIngresado;
-			si dniIngresado <= 10000000 //comprueba que el dni contenga 8 digitos
+			si dniIngresado < 1000000 o dniIngresado > 99999999//comprueba que el dni contenga 8 digitos
 				dniInvalido = Verdadero
 			FinSi
 			Mientras k <= n_clientes y dniInvalido == Falso // si el bucle ya se ejecuto una vez por cada cliente o se comprueba que el dni es falso, no se ejecuta este bucle, así recorre solo lo necesario
@@ -98,7 +98,7 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 				k = k + 1
 			FinMientras
 			si dniInvalido = Verdadero
-				Escribir "dni no valido o ya en uso, intente de nuevo"
+				Escribir "dni no valido o ya en uso, presione enter e intente de nuevo"
 				leer continuar
 			SiNo
 				dni[i] = dniIngresado
