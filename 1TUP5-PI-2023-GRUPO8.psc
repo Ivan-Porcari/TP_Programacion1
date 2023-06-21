@@ -24,6 +24,12 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				Escribir "Aún no se han cargado los socios, presione enter para continuar"
 				leer continuar;
 				opc = 6;
+			SiNo
+				si opc == 1 y socios_cargados == Verdadero
+					Escribir "ya se han ingresado los datos de los socios";
+					leer continuar;
+					opc = 6;
+				FinSi
 			FinSi
 		FinSi
 		
@@ -61,7 +67,12 @@ FinProceso
 // carga de datos 
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	
-	definir i, validacion, continuar Como Entero
+	definir dniIngresado, i, j, k, validacion Como Entero
+	definir dniInvalido Como Logico
+	Definir continuar como cadena
+	Para j <- 1 Hasta n_clientes con paso 1 Hacer //rellena el vector de dni's con la los numeros del 1 hasta n_clientes, para que no salte un error al comprobar si ya fue ingresado ese dni con anterioridad
+		dni[j] = j;
+	FinPara
 	
 	Para i <- 1 Hasta n_clientes Con Paso 1 Hacer
 		Escribir "Ingrese nombre del cliente ", i, ": ";
@@ -72,8 +83,27 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 		Leer telefono[i];
 		Escribir "Ingrese edad del cliente ", i, ": ";
 		Leer edad[i];
-		Escribir "Ingrese el DNI del cliente ", i, ": ";
-		Leer dni[i];
+		Hacer //desde acá hasta la linea 106 se comprueba 1: si el DNI está dentro de un rango valido y 2: si el dni ya fue ingresado con anterioridad
+			k = 1
+			dniInvalido = Falso
+			Escribir "Ingrese el DNI del cliente ", i, ": ";
+			Leer dniIngresado;
+			si dniIngresado <= 10000000 //comprueba que el dni contenga 8 digitos
+				dniInvalido = Verdadero
+			FinSi
+			Mientras k <= n_clientes y dniInvalido == Falso // si el bucle ya se ejecuto una vez por cada cliente o se comprueba que el dni es falso, no se ejecuta este bucle, así recorre solo lo necesario
+				si dniIngresado == dni[k]
+					dniInvalido = Verdadero
+				FinSi
+				k = k + 1
+			FinMientras
+			si dniInvalido = Verdadero
+				Escribir "dni no valido o ya en uso, intente de nuevo"
+				leer continuar
+			SiNo
+				dni[i] = dniIngresado
+			FinSi
+		Mientras Que dniInvalido == Verdadero o k <= n_clientes
 		Hacer
 		Limpiar Pantalla
 		Escribir "Ingrese estado membresia del cliente ", i, ": ";
@@ -135,31 +165,31 @@ SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono P
 		i = i + 1
 	FinMientras
 	si dniEncontrado == Verdadero
-		Escribir "nombre: ", nombre[i-1]
-		Escribir "dni: ", dni[i-1]
-		Escribir "direccion: ", direccion[i-1]
-		Escribir "edad: ", edad[i-1]
-		Escribir "tipo de membresia: ", tipo_membresia[i-1]
-		Escribir "estado de cuenta: ", membresia_paga[i-1]
-		Escribir "telefono: ", telefono[i-1]
-		leer continuar
+		Escribir "nombre: ", nombre[i-1];
+		Escribir "dni: ", dni[i-1];
+		Escribir "direccion: ", direccion[i-1];
+		Escribir "edad: ", edad[i-1];
+		Escribir "tipo de membresia: ", tipo_membresia[i-1];
+		Escribir "estado de cuenta: ", membresia_paga[i-1];
+		Escribir "telefono: ", telefono[i-1];
+		leer continuar;
 	SiNo
-		Escribir "dni no encontrado"
-		leer continuar
+		Escribir "dni no encontrado";
+		leer continuar;
 	FinSi
 finSubProceso 
 
 //proceso de mostrar listado
 subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_paga Por Referencia, n_clientes)
 	
-	definir i Como Entero
-	definir continuar Como Caracter
+	definir i Como Entero;
+	definir continuar Como Caracter;
 	Limpiar Pantalla
 	
 	i = 1
 	
 	para i <- 1 hasta n_clientes con paso 1 Hacer
-		Escribir "Nombre: ", nombre[i], " - DNI: ", dni[i], " - Estado: ", membresia_paga[i]
+		Escribir "Nombre: ", nombre[i], " - DNI: ", dni[i], " - Estado: ", membresia_paga[i];
 	FinPara
 	leer continuar
 	
