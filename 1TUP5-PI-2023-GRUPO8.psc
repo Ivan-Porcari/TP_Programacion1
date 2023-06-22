@@ -35,7 +35,7 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 		
 		
 		Segun opc Hacer
-			1:
+			1:			///carga de socios
 				Repetir
 					Escribir "Ingrese la cantidad de clientes que desea cargar:";
 					Leer n_clientes;
@@ -53,18 +53,19 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				cargarDatos(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes);
 				socios_cargados = Verdadero;
 			2: 
-				buscarDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes);
+				buscarDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes); /// busqueda por dni
 				
 			3:	
+				ordenamientoPorDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes)
 				
-				
-			4: 	mostrarListado(nombre, dni, membresia_paga, n_clientes)
+			4: 	mostrarListado(nombre, dni, membresia_paga, n_clientes)   ///muestreo de listado
 			
 		FinSegun
 	Hasta Que opc = 5
 	
 FinProceso
-// carga de datos 
+
+/// carga de datos 
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	
 	definir dniIngresado, i, j, k, validacion Como Entero
@@ -150,7 +151,7 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 FinSubProceso
 
 
-// proceso busqueda de DNI
+/// proceso busqueda de DNI
 SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	Definir i, dniBuscado Como Entero
 	Definir dniEncontrado Como Logico
@@ -179,7 +180,7 @@ SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono P
 	FinSi
 finSubProceso 
 
-//proceso de mostrar listado
+///proceso de mostrar listado
 subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_paga Por Referencia, n_clientes)
 	
 	definir i Como Entero;
@@ -194,5 +195,58 @@ subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_p
 	leer continuar
 	
 FinSubProceso
+
+
+///proceso de ordenamiento por DNI y cambios de indice en los distintos arrays
+SubProceso ordenamientoPorDni(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
+	
+	definir i, j, posMenor, aux_dni, aux_telefono, aux_edad Como Entero
+	definir aux_nombre, aux_dir, aux_membresia, aux_tipo Como Caracter
+	
+	para i = 1 hasta n_clientes -1 Hacer
+		
+		posMenor = i;
+		
+		para j = i+1 hasta n_clientes Hacer
+			
+			si dni[j] < dni[PosMenor] Entonces
+				posMenor = j
+			FinSi
+			
+			
+		FinPara
+		
+		aux_dni = dni[i]
+		dni[i] = dni[PosMenor]
+		dni[PosMenor] = aux_dni
+		
+		aux_nombre = nombre[i]
+		nombre[i] = nombre[PosMenor]
+		nombre[PosMenor] = aux_nombre
+		
+		aux_telefono = telefono[i]
+		telefono[i] = telefono[PosMenor]
+		telefono[PosMenor] = aux_telefono
+		
+		aux_dir = direccion[i]
+		direccion[i] = direccion[PosMenor]
+		direccion[PosMenor] = aux_dir
+		
+		aux_edad = edad[i]
+		edad[i] = edad[PosMenor]
+		edad[PosMenor] = aux_edad
+		
+		aux_membresia = membresia_paga[i]
+		membresia_paga[i] = membresia_paga[PosMenor]
+		membresia_paga[PosMenor] = aux_membresia
+		
+		aux_tipo = tipo_membresia[i]
+		tipo_membresia[i] = tipo_membresia[PosMenor]
+		tipo_membresia[PosMenor] = aux_tipo
+		
+	FinPara
+	
+FinSubProceso
+
 
 
