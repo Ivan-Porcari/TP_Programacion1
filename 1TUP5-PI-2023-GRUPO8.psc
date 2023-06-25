@@ -79,9 +79,10 @@ FinProceso
 /// carga de datos 
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	
-	definir dniIngresado, i, j, k, validacion Como Entero
-	definir dniInvalido Como Logico
+	definir dniIngresado, edad_ingresada, i, j, k, validacion Como Entero
+	definir dniInvalido, edadInvalida Como Logico
 	Definir continuar como cadena
+	edadInvalida = Falso
 	Para j <- 1 Hasta n_clientes con paso 1 Hacer //rellena el vector de dni's con la los numeros del 1 hasta n_clientes, para que no salte un error al comprobar si ya fue ingresado ese dni con anterioridad
 		dni[j] = j;
 	FinPara
@@ -93,8 +94,17 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 		Leer direccion[i];
 		Escribir "Ingrese telefono del cliente ", i, ": ";
 		Leer telefono[i];
-		Escribir "Ingrese edad del cliente ", i, ": ";
-		Leer edad[i];
+		Repetir
+			Escribir "Ingrese edad del cliente ", i, ": ";
+			leer edad_ingresada
+			
+			si edad_ingresada < 0 o edad_ingresada > 120
+				edadInvalida = Falso
+			SiNo
+				edad[i] = edad_ingresada
+				edadInvalida = Verdadero
+			FinSi
+		Mientras Que edadInvalida = Falso
 		Hacer //desde acá hasta la linea 106 se comprueba 1: si el DNI está dentro de un rango valido y 2: si el dni ya fue ingresado con anterioridad
 			k = 1
 			dniInvalido = Falso
@@ -275,7 +285,7 @@ SubProceso ordenamientoLista(nombre Por Referencia, direccion Por Referencia, te
 					FinSi
 					
 				FinPara
-			6:
+			8:
 				para j = i+1 hasta n_clientes Hacer
 					
 					si membresia_paga[j] > membresia_paga[posMM] Entonces
