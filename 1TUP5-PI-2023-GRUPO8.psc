@@ -1,6 +1,6 @@
 Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 	//El objetivo de este trabajo práctico es desarrollar un sistema de gestión para un gimnasio que cumpla con los siguientes requisitos: carga de datos, búsqueda, ordenamiento y generación de listados.
-	Definir opc, n_clientes, telefono, edad, dni, i Como Entero;
+	Definir opc,opc_ordenar, n_clientes, telefono, edad, dni, i Como Entero;
 	Definir socios_cargados Como Logico;
 	Definir nombre, direccion, continuar, tipo_membresia, membresia_paga Como Caracter;
 	socios_cargados = falso;
@@ -33,7 +33,6 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 			FinSi
 		FinSi
 		
-		
 		Segun opc Hacer
 			1:			///carga de socios
 				Repetir
@@ -56,9 +55,21 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				buscarDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes); /// busqueda por dni
 				
 			3:	
-				ordenamientoPorDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes)
+				Escribir "SUBMENU ORDENAR";
+				Escribir "1-> Ordenar Por DNI Ascendente";
+				Escribir "2-> Ordenar Por DNI Descendente";
+				Escribir "3-> Ordenar Por Nombre Ascendente";
+				Escribir "4-> Ordenar Por Nombre Descendente";
+				Escribir "5-> Ordenar Por Direccion Ascendente";
+				Escribir "6-> Ordenar Por Direccion Descendente";
+				Escribir "7-> Ordenar Por Estado Membresia Ascendente";
+				Escribir "8-> Ordenar Por Estado Membresia Descendente";
+				Escribir "Seleccione la opcion que desea realizar:";
+				Leer opc_ordenar;
 				
-			4: 	mostrarListado(nombre, dni, membresia_paga, n_clientes)   ///muestreo de listado
+				ordenamientoLista(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes, opc_ordenar); ///Tipo de ordenamiento para el Listado
+								
+			4: 	mostrarListado(nombre, dni, membresia_paga, direccion, telefono,  n_clientes)   ///muestreo de listado
 			
 		FinSegun
 	Hasta Que opc = 5
@@ -181,7 +192,7 @@ SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono P
 finSubProceso 
 
 ///proceso de mostrar listado
-subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_paga Por Referencia, n_clientes)
+subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_paga Por Referencia, direccion Por Referencia, telefono Por Referencia, n_clientes)
 	
 	definir i Como Entero;
 	definir continuar Como Caracter;
@@ -190,63 +201,122 @@ subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_p
 	i = 1
 	
 	para i <- 1 hasta n_clientes con paso 1 Hacer
-		Escribir "Nombre: ", nombre[i], " - DNI: ", dni[i], " - Estado: ", membresia_paga[i];
+		Escribir "Nombre: ", nombre[i], " - DNI: ", dni[i], " - Direccion: ", direccion[i], " - Telefono: ", telefono[i], " - Estado: ", membresia_paga[i];
 	FinPara
+	Escribir "Presione Enter para continuar";
 	leer continuar
 	
 FinSubProceso
 
-
-///proceso de ordenamiento por DNI y cambios de indice en los distintos arrays
-SubProceso ordenamientoPorDni(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
+///proceso de ordenamiento
+SubProceso ordenamientoLista(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes, opc_ordenar)
 	
-	definir i, j, posMenor, aux_dni, aux_telefono, aux_edad Como Entero
+	definir i, j, posMM, aux_dni, aux_telefono, aux_edad Como Entero
 	definir aux_nombre, aux_dir, aux_membresia, aux_tipo Como Caracter
 	
 	para i = 1 hasta n_clientes -1 Hacer
 		
-		posMenor = i;
+		posMM = i;
 		
-		para j = i+1 hasta n_clientes Hacer
-			
-			si dni[j] < dni[PosMenor] Entonces
-				posMenor = j
-			FinSi
-			
-			
-		FinPara
+		Segun opc_ordenar Hacer
+			1: 
+				para j = i+1 hasta n_clientes Hacer
+					
+					si dni[j] < dni[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			2:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si dni[j] > dni[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			3:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si nombre[j] < nombre[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			4:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si nombre[j] > nombre[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			5:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si direccion[j] < direccion[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			6:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si direccion[j] > direccion[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			7:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si membresia_paga[j] < membresia_paga[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			6:
+				para j = i+1 hasta n_clientes Hacer
+					
+					si membresia_paga[j] > membresia_paga[posMM] Entonces
+						posMM = j
+					FinSi
+					
+				FinPara
+			De Otro Modo:
+				Escribir "Seleccion Invalida";
+		FinSegun
+		
 		
 		aux_dni = dni[i]
-		dni[i] = dni[PosMenor]
-		dni[PosMenor] = aux_dni
+		dni[i] = dni[PosMM]
+		dni[PosMM] = aux_dni
 		
 		aux_nombre = nombre[i]
-		nombre[i] = nombre[PosMenor]
-		nombre[PosMenor] = aux_nombre
+		nombre[i] = nombre[PosMM]
+		nombre[PosMM] = aux_nombre
 		
 		aux_telefono = telefono[i]
-		telefono[i] = telefono[PosMenor]
-		telefono[PosMenor] = aux_telefono
+		telefono[i] = telefono[PosMM]
+		telefono[PosMM] = aux_telefono
 		
 		aux_dir = direccion[i]
-		direccion[i] = direccion[PosMenor]
-		direccion[PosMenor] = aux_dir
+		direccion[i] = direccion[PosMM]
+		direccion[PosMM] = aux_dir
 		
 		aux_edad = edad[i]
-		edad[i] = edad[PosMenor]
-		edad[PosMenor] = aux_edad
+		edad[i] = edad[PosMM]
+		edad[PosMM] = aux_edad
 		
 		aux_membresia = membresia_paga[i]
-		membresia_paga[i] = membresia_paga[PosMenor]
-		membresia_paga[PosMenor] = aux_membresia
+		membresia_paga[i] = membresia_paga[PosMM]
+		membresia_paga[PosMM] = aux_membresia
 		
 		aux_tipo = tipo_membresia[i]
-		tipo_membresia[i] = tipo_membresia[PosMenor]
-		tipo_membresia[PosMenor] = aux_tipo
+		tipo_membresia[i] = tipo_membresia[PosMM]
+		tipo_membresia[PosMM] = aux_tipo
 		
 	FinPara
 	
 FinSubProceso
-
-
 
