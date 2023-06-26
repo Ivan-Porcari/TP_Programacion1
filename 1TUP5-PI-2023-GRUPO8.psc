@@ -53,7 +53,6 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				socios_cargados = Verdadero;
 			2: 
 				buscarDni(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes); /// busqueda por dni
-				
 			3:	
 				Escribir "SUBMENU ORDENAR";
 				Escribir "1-> Ordenar Por DNI Ascendente";
@@ -68,6 +67,7 @@ Proceso principal //Ledesma Thomas, Porcari Ivan, Pradenas Jordan
 				Leer opc_ordenar;
 				
 				ordenamientoLista(nombre, direccion, telefono, edad, dni, membresia_paga, tipo_membresia, n_clientes, opc_ordenar); ///Tipo de ordenamiento para el Listado
+				
 								
 			4: 	mostrarListado(nombre, dni, membresia_paga, direccion, telefono,  n_clientes)   ///muestreo de listado
 			
@@ -79,10 +79,11 @@ FinProceso
 /// carga de datos 
 SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	
-	definir dniIngresado, edad_ingresada, i, j, k, validacion Como Entero
-	definir dniInvalido, edadInvalida Como Logico
+	definir dniIngresado, edad_ingresada, i, j, k, validacion, telefono_auxiliar Como Entero
+	definir dniInvalido, edadInvalida, telefonoInvalido Como Logico
 	Definir continuar como cadena
 	edadInvalida = Falso
+	telefonoInvalido = Falso
 	Para j <- 1 Hasta n_clientes con paso 1 Hacer //rellena el vector de dni's con la los numeros del 1 hasta n_clientes, para que no salte un error al comprobar si ya fue ingresado ese dni con anterioridad
 		dni[j] = j;
 	FinPara
@@ -92,8 +93,18 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 		Leer nombre[i];
 		Escribir "Ingrese direccion del cliente ", i, ": ";
 		Leer direccion[i];
-		Escribir "Ingrese telefono del cliente ", i, ": ";
-		Leer telefono[i];
+		Repetir
+			Escribir "Ingrese telefono del cliente ", i, "(formato de ejemplo 341XXXXXXX): ";
+			leer telefono[i]
+			
+			si telefono[i] < 3410000000 o telefono[i] > 3419999999
+				telefonoInvalido = Falso;
+				Escribir "Formato de telefono invalido";
+			SiNo
+				telefonoInvalido = Verdadero
+			FinSi
+		Mientras Que telefonoInvalido = Falso
+		
 		Repetir
 			Escribir "Ingrese edad del cliente ", i, ": ";
 			leer edad_ingresada
@@ -105,7 +116,7 @@ SubProceso cargarDatos(nombre Por Referencia, direccion Por Referencia, telefono
 				edadInvalida = Verdadero
 			FinSi
 		Mientras Que edadInvalida = Falso
-		Hacer //desde acá hasta la linea 106 se comprueba 1: si el DNI está dentro de un rango valido y 2: si el dni ya fue ingresado con anterioridad
+		Hacer //desde acá hasta la linea 139 se comprueba 1: si el DNI está dentro de un rango valido y 2: si el dni ya fue ingresado con anterioridad
 			k = 1
 			dniInvalido = Falso
 			Escribir "Ingrese el DNI del cliente ", i, ": ";
@@ -176,6 +187,7 @@ FinSubProceso
 SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono Por Referencia, edad Por Referencia, dni Por Referencia, membresia_paga Por Referencia, tipo_membresia Por Referencia, n_clientes)
 	Definir i, dniBuscado Como Entero
 	Definir dniEncontrado Como Logico
+	definir continuar Como Caracter;
 	dniEncontrado = Falso
 	i = 1
 	Escribir "ingrese el dni que busca"
@@ -194,9 +206,11 @@ SubProceso buscarDni(nombre Por Referencia, direccion Por Referencia, telefono P
 		Escribir "tipo de membresia: ", tipo_membresia[i-1];
 		Escribir "estado de cuenta: ", membresia_paga[i-1];
 		Escribir "telefono: ", telefono[i-1];
+		Escribir "Presione Enter para continuar";
 		leer continuar;
 	SiNo
 		Escribir "dni no encontrado";
+		Escribir "Presione Enter para continuar";
 		leer continuar;
 	FinSi
 finSubProceso 
@@ -216,6 +230,7 @@ subproceso mostrarListado(nombre Por Referencia, dni Por Referencia, membresia_p
 	Escribir "Presione Enter para continuar";
 	leer continuar
 	
+	
 FinSubProceso
 
 ///proceso de ordenamiento
@@ -223,7 +238,7 @@ SubProceso ordenamientoLista(nombre Por Referencia, direccion Por Referencia, te
 	
 	definir i, j, posMM, aux_dni, aux_telefono, aux_edad Como Entero
 	definir aux_nombre, aux_dir, aux_membresia, aux_tipo Como Caracter
-	
+	definir continuar Como Caracter
 	para i = 1 hasta n_clientes -1 Hacer
 		
 		posMM = i;
@@ -327,6 +342,7 @@ SubProceso ordenamientoLista(nombre Por Referencia, direccion Por Referencia, te
 		tipo_membresia[PosMM] = aux_tipo
 		
 	FinPara
-	
+	Escribir "Ordenado con éxito presione Enter para continuar";
+	leer continuar
 FinSubProceso
 
