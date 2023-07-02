@@ -19,7 +19,7 @@ void Dijkstra(int grafo[MAX][MAX], int n, int comienzo) {
     pred[i] = comienzo;
     visitado[i] = 0;
   }
-
+  mindistancia = INF;
   distancia[comienzo] = 0;
   visitado[comienzo] = 1;
   cont = 1;
@@ -28,14 +28,14 @@ void Dijkstra(int grafo[MAX][MAX], int n, int comienzo) {
     mindistancia = INF;
 
     for (i = 0; i < n; i++)
-      if (distancia[i] < mindistancia && !visitado[i]) {
+      if (distancia[i] < mindistancia && visitado[i]==0) {
         mindistancia = distancia[i];
         prox_vertice = i;
       }
 
     visitado[prox_vertice] = 1;
     for (i = 0; i < n; i++)
-      if (!visitado[i])
+      if (visitado[i]==0)
         if (mindistancia + costo[prox_vertice][i] < distancia[i]) {
           distancia[i] = mindistancia + costo[prox_vertice][i];
           pred[i] = prox_vertice;
@@ -79,7 +79,7 @@ int main() {
 
   printf("Seleccione desde que v%crtice desea calcular las distancias m%cnimas (de 0 a %d):\n",130, 161, n-1);
   scanf("%d",&u);
-  while (u<0 && u>=n)
+  while (u<0 || u>=n)
   {
     printf("La opci%cn de v%crtice no es correcta\n",162, 130);
     scanf("%d",&u);
